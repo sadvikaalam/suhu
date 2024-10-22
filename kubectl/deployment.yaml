@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vika-deployment  # Nama deployment
+  namespace: vika
+  labels:
+    app: nginx
+spec:
+  replicas: 2  # Jalankan 3 replika pod
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx-container  # Nama container
+        image: nginx:latest  # Menggunakan image NGINX
+        ports:
+        - containerPort: 80  # NGINX default menggunakan port 80
+        resources:
+          limits:
+            memory: "100Mi"
+            cpu: "100m"
+          requests:
+            memory: "40Mi"
+            cpu: "10m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 5

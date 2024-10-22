@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service  # Nama service
+  namespace: vika
+  labels:
+    app: nginx
+spec:
+  type: LoadBalancer  #ClusterIP #NodePort
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80  # Port untuk mengakses service
+      targetPort: 80  # Port yang ada di dalam container
